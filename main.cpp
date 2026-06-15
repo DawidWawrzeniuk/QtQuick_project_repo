@@ -10,7 +10,8 @@ int main(int argc, char *argv[])   // Główna funkcja programu
     QQuickView view;
     // Tworzy okno renderujące QML — coś jak "przeglądarka" QML
 
-    view.setSource(QUrl("Main.qml"));
+    view.setSource(QUrl::fromLocalFile("C:/Users/dawi2/Documents/Kurs_QtQuick/Main.qml"));
+
     // Ładuje plik QML z dysku
     // QUrl mówi silnikowi, gdzie znajduje się plik QML
 
