@@ -1,18 +1,10 @@
-import QtQuick 2.15
+import QtQuick
+
 Rectangle {
-    width: 400
-    height: 400
-    color: "grey"
-
-
-    Rectangle {
-        color: "lightblue"
-        x: 40
-        y: 50
-        width: 300
-        height: 140
-     }
- }
+    width: 200
+    height: 200
+    color: "red"
+}
 // Item {
 //     width: 400
 //     height: 200
