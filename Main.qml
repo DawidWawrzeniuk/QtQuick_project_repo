@@ -1,18 +1,35 @@
 import QtQuick
 
-Rectangle {
-    width: 200
-    height: 200
-    color: "blue"
+// Rectangle {
+//     width: 400
+//     height: 400
+//     color: "blue"
 
-    Image {
-        x:150
-        y:150
-        source: "file:///C:/Users/dawi2/Documents/QtQuick_project_repo/pobrane/rocket.jpg"
+//     Image {
+//         x:150
+//         y:150
+//         source: "file:///C:/Users/dawi2/Documents/QtQuick_project_repo/pobrane/rocket.jpg"
+//         width: sourceSize.width*2           //wielkość domyślna obrazka
+//         height: sourceSize.height*2         //wielkość domyślna obrazka
+//         Component.onCompleted: console.log(width, height, sourceSize)   //sygnał wywoływany automatycznie, gdy dany element QML zostanie w pełni utworzony i zainicjalizowany
+//     }
+// }
+
+Image{
+    id:image
+    width: 1000
+    height: 1000
+    source:  "file:///C:/Users/dawi2/Documents/QtQuick_project_repo/pobrane/wallpaper.jpg"
+    fillMode: Image.PreserveAspectFit       //dopasuj obraz do ramki zachowując proporcje
+    Rectangle{
+        color: "red"
+        x:0;y:950;
+        height: 50
+        width: 1000 * image.progress        //szerokosc razy stan ładowania pliku
+        visible: image.progress != 1        //pokazuj jak sie ładuje
     }
+onStatusChanged: console.log(sourceSize)
 }
-
-
 
 // Rectangle {
 //     id:root
