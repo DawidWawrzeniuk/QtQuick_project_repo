@@ -17,6 +17,7 @@ qt_add_qml_module(appKurs_QtQuick
     URI Kurs_QtQuick
     QML_FILES
         Main.qml
+        SOURCES
 )
 
 # Qt for iOS sets MACOSX_BUNDLE_GUI_IDENTIFIER automatically since Qt 6.1.
