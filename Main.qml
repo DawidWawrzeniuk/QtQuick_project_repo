@@ -1,72 +1,97 @@
-import QtQuick
-import QtQuick.Controls
-// Rectangle {
-//     width: 400
-//     height: 400
-//     color: "lightblue"
-
-//     Button {
-//         text: "Kliknij mnie"
-//         anchors.centerIn: parent
-//         onClicked: console.log("Kliknięto przycisk!")
-//     }
-
-//     Rectangle{
-//         x:50; y:50; width:200; height: 300
-//         color: "White"
-//         opacity:0.5
-
-//         Rectangle{
-//             x:100;y:25; width:200; height: 50
-//             color: "red"
-//             opacity:0.5
-//         }
-//         Rectangle{
-//             x:100;y:90; width: 200; height: 50
-//             color: "red"
-
-//         }
-//     }
-//     Rectangle{
-//         x:150;y:210; width: 200; height: 50
-//         color: "red"
-//         opacity:0.5
-//     }
-//     Rectangle{
-//         x:150;y:275; width: 200; height: 50
-//         color: "red"
-
-//     }
-// }
+import QtQuick            // moduł podstawowy QML
+import QtQuick.Controls   // moduł kontrolek (Button, Slider itd.)
 
 Rectangle {
-    width: 400
-    height: 400
-    color: "lightblue"
+    id: root
+    color: "lightgrey"    // kolor tła
+    width: 500            // szerokość okna
+    height: 500           // wysokość okna
 
-Rectangle{
-    color: "red"
-    width: iim.width+10
-    height: iim.height+10
-    x: 150
-    y: 150
+    Item {
+        // --- LOGIKA WYŚRODKOWANIA I SKALOWANIA ---
 
-    Image{
-        id: iim
-        source: "file:///C:/Users/dawi2/Documents/QtQuick_project_repo/pobrane/rocket.jpg"
-        rotation: 45.0
-        transformOrigin: Item.Left       //przesuniecie do lewej strony
+        property int _minSide: Math.min(root.width, root.height)    //definicja zmiennej _minSide ktora przyjmuje wartosc najmniejsza z podanych
+        // najmniejszy bok okna – używany do zachowania proporcji
+
+        x: 10 + (root.width - _minSide) / 2
+        // przesunięcie w poziomie, aby element był wyśrodkowany z marginesem 10px
+
+        y: 10 + (root.height - _minSide) / 2
+        // przesunięcie w pionie, analogicznie jak wyżej
+
+        width: _minSide - 20
+        height: _minSide - 20
+        // kwadratowy obszar wewnętrzny z marginesem 20px
+
+        scale: Math.min(width / background.sourceSize.width,        //wspolczynnik skali jest rowny mniejszej wartosci width / background.sourceSize.width lub height / background.sourceSize.height
+                        height / background.sourceSize.height)
+        // skalowanie obrazka tak, aby zmieścił się w obszarze Item
+        // zachowuje proporcje
+
+        transformOrigin: Item.TopLeft                               //przesuniecie itemu do gory lewo
+        // skalowanie liczone od lewego górnego rogu
+
+        // --- TŁO ZEGARA ---
+
+        Image {
+            id: background
+            // source: "..."   // tutaj ustawiasz obrazek tarczy zegara
+        }
+
+        // --- MAŁA WSKAZÓWKA (np. sekundnik) ---
+
+        Image {
+            id: smallArm
+            // source: "..."   // obrazek wskazówki
+
+            x: background.width / 2 - width / 2
+            // pozycjonowanie wskazówki na środku tarczy (poziomo)
+
+            y: background.height / 2 - 914
+            // pozycjonowanie pionowe – 914 to odległość środka obrotu od góry obrazka
+
+            transform: Rotation {
+                origin.x: smallArm.width / 2
+                origin.y: 914
+                // punkt obrotu wskazówki
+
+                RotationAnimation on angle {
+                    from: 0
+                    to: 360 * 2         // dwa pełne obroty
+                    duration: 60000     // 60 sekund
+                    loops: Animation.Infinite
+                    // animacja nieskończona
+                }
+            }
+        }
+    }
+
+    // --- DUŻA WSKAZÓWKA (np. minutnik) ---
+
+    Image {
+        id: largeArm
+        // source: "..."   // obrazek dużej wskazówki
+
+        x: background.width / 2 - width / 2
+        // wyśrodkowanie poziome
+
+        y: background.height / 2 - 1255
+        // pozycjonowanie pionowe – 1255 to odległość środka obrotu
+
+        transform: Rotation {
+            origin.x: largeArm.width / 2
+            origin.y: 1255
+            // punkt obrotu wskazówki
+
+            angle: 90
+            // startowy kąt obrotu
+
+            RotationAnimation on angle {
+                from: 0
+                to: 360 * 24        // 24 obroty (np. 24 minuty)
+                duration: 60000     // 60 sekund
+                loops: Animation.Infinite
+            }
+        }
     }
 }
-}
-
-
-
-
-
-
-
-
-
-
-
