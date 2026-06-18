@@ -1,97 +1,80 @@
-import QtQuick            // moduł podstawowy QML
-import QtQuick.Controls   // moduł kontrolek (Button, Slider itd.)
+ import QtQuick            // moduł podstawowy QML
+ import QtQuick.Controls   // moduł kontrolek (Button, Slider itd.)
 
-Rectangle {
-    id: root
-    color: "lightgrey"    // kolor tła
-    width: 500            // szerokość okna
-    height: 500           // wysokość okna
+// Rectangle{
+//         id:background
+//         width: 300
+//         height: 100
+//         color: "lightblue"
 
-    Item {
-        // --- LOGIKA WYŚRODKOWANIA I SKALOWANIA ---
+//         Rectangle{
+//                 color: "green"
+//                 y:25                    //overwritten by the top anchor
+//                 height: 50
+//                 width: 50
+//                 anchors.right: background.right //prawa strona rectangle przylega do prawej strony background
+//                 anchors.top: background.top
+//                 anchors.left: background.left
+//         // anchors{
+//         //         top: background.top
+//         //         right: background.right
+//         // }
 
-        property int _minSide: Math.min(root.width, root.height)    //definicja zmiennej _minSide ktora przyjmuje wartosc najmniejsza z podanych
-        // najmniejszy bok okna – używany do zachowania proporcji
+//         }
+// }
 
-        x: 10 + (root.width - _minSide) / 2
-        // przesunięcie w poziomie, aby element był wyśrodkowany z marginesem 10px
 
-        y: 10 + (root.height - _minSide) / 2
-        // przesunięcie w pionie, analogicznie jak wyżej
 
-        width: _minSide - 20
-        height: _minSide - 20
-        // kwadratowy obszar wewnętrzny z marginesem 20px
+// Rectangle {
+//     id: bg
+//     width: 400; height: 200
+//     color: "lightblue"
 
-        scale: Math.min(width / background.sourceSize.width,        //wspolczynnik skali jest rowny mniejszej wartosci width / background.sourceSize.width lub height / background.sourceSize.height
-                        height / background.sourceSize.height)
-        // skalowanie obrazka tak, aby zmieścił się w obszarze Item
-        // zachowuje proporcje
+//     Image {
+//         id: book
+//          width: 100; height: 100
+//         source:  "file:///C:/Users/dawi2/Documents/QtQuick_project_repo/pobrane/wallpaper.jpg"
+//         anchors.left: bg.left
+//         anchors.leftMargin: bg.width/16         //wciecie od lewej strony ma tyle wynosic
+//         anchors.verticalCenter: bg.verticalCenter
+//     }
 
-        transformOrigin: Item.TopLeft                               //przesuniecie itemu do gory lewo
-        // skalowanie liczone od lewego górnego rogu
+//     Text {
+//         text: "Writing"
+//         font.pixelSize: 32
+//         anchors.left: book.right
+//         anchors.leftMargin: 32                  //wciecie z lewej strony
+//         anchors.baseline: book.verticalCenter   //linia baseline czyli linia pod literami ma sie zgrywawc z vertical center
+//     }
+// }
 
-        // --- TŁO ZEGARA ---
 
-        Image {
-            id: background
-            // source: "..."   // tutaj ustawiasz obrazek tarczy zegara
+// Rectangle{
+//         //The parent element
+//         width: 300
+//         height: 100
+//         color: "lightblue"
+
+//         Rectangle{
+//                 color: "green"
+//                 y:25
+//                 height: 50
+//                 width: 50
+//                 anchors.centerIn: parent
+
+//         }
+// }
+
+Rectangle{
+        //The parent element
+        width: 300
+        height: 100
+        color: "lightblue"
+
+        Rectangle{
+                color: "green"
+                anchors.fill:parent
+                anchors.margins: 30
+
         }
-
-        // --- MAŁA WSKAZÓWKA (np. sekundnik) ---
-
-        Image {
-            id: smallArm
-            // source: "..."   // obrazek wskazówki
-
-            x: background.width / 2 - width / 2
-            // pozycjonowanie wskazówki na środku tarczy (poziomo)
-
-            y: background.height / 2 - 914
-            // pozycjonowanie pionowe – 914 to odległość środka obrotu od góry obrazka
-
-            transform: Rotation {
-                origin.x: smallArm.width / 2
-                origin.y: 914
-                // punkt obrotu wskazówki
-
-                RotationAnimation on angle {
-                    from: 0
-                    to: 360 * 2         // dwa pełne obroty
-                    duration: 60000     // 60 sekund
-                    loops: Animation.Infinite
-                    // animacja nieskończona
-                }
-            }
-        }
-    }
-
-    // --- DUŻA WSKAZÓWKA (np. minutnik) ---
-
-    Image {
-        id: largeArm
-        // source: "..."   // obrazek dużej wskazówki
-
-        x: background.width / 2 - width / 2
-        // wyśrodkowanie poziome
-
-        y: background.height / 2 - 1255
-        // pozycjonowanie pionowe – 1255 to odległość środka obrotu
-
-        transform: Rotation {
-            origin.x: largeArm.width / 2
-            origin.y: 1255
-            // punkt obrotu wskazówki
-
-            angle: 90
-            // startowy kąt obrotu
-
-            RotationAnimation on angle {
-                from: 0
-                to: 360 * 24        // 24 obroty (np. 24 minuty)
-                duration: 60000     // 60 sekund
-                loops: Animation.Infinite
-            }
-        }
-    }
 }
